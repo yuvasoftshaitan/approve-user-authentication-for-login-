@@ -1,0 +1,73 @@
+<h1><%= @user.email %></h1>
+
+<h2> task </h2>
+
+
+<% @user.tasks.each do |task| %>
+  <p>
+    <strong>Task:</strong>
+     <%= task.name %>
+  </p>
+
+  <p>
+    <strong>Workstatus =></strong>
+     <%if task.workstatus == "start work" %>
+             <td><strong>start work</strong></td>  
+             <% elsif task.workstatus ==  "finish work"%>
+             <td><strong>finish work</strong></td>
+              <% elsif task.workstatus ==  "in_progress"  %>
+               <td><strong>in_progress</strong></td>
+               <%else%>
+                <td><strong>no response</strong></td>
+             <%end%>
+
+  </p>
+   <%if current_user.typename == 'manejar'  %>
+            <%if task.workstatus == "start work" %>
+             <td><strong>start work</strong></td>  
+             <% elsif task.workstatus ==  "finish work"%>
+             <td><strong>finish work</strong></td>
+              <% elsif task.workstatus ==  "in_progress"  %>
+               <td><strong>in_progress</strong></td>
+               <%else%>
+                <td><strong>no response</strong></td>
+             <%end%>
+    <%else%>
+    <tr>
+        <td> 
+     
+      <%= button_to "start work" ,  start_work_task_path(task) , method: :start_work_task  %>
+       <%= button_to "in_progress" , in_progress_task_path(task) , method: :in_progress_task %>
+        <%= button_to "finish_work_task" , finish_work_task_path(task) , method: :finish_work %>
+      </td><br>
+      <%end%>
+  </tr>
+<% end %>
+
+ <%if current_user.typename == 'manejar'  %>
+  <%= form_with model: [ @user, @user.tasks.build ],url:tasks_path   do |form| %>
+  <%#= form_for @user, :as => :user, :url => sign_in_path(@user) do |f| %>
+   <%#= form_for @user,[ @user, @user.tasks.build ], url:tasks_path  do |form| %>
+    <p>
+
+       <%= form.label :name %><br>
+      <%= form.text_field :name %>
+  </p>
+      <%= form.hidden_field :user_id, value: @user.id %>
+             
+
+  <p>
+  	
+
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+  <%end%>
+<% end %>
+
+
+
+
+
+<%= button_to 'Back',  root_path , method: :get  %>
