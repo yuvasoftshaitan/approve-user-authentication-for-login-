@@ -44,9 +44,7 @@ group :development do
   gem 'pg'
   gem 'spring'
 end
-group :production do 
- gem 'pg'
-end
+
 
 
 group :test do
